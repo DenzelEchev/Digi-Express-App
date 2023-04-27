@@ -38,6 +38,13 @@ MongoClient.connect(dbString, { useUnifiedTopology: true })
           .catch(error => console.error(error))
       })
 
+      app.delete('/digiDelete', (req, res) => {
+        db.collection('digiData').findOneAndDelete({name: req.body.name}, (err, result) => {
+          if (err) return res.send(500, err)
+          res.send('Message deleted!')
+        })
+      })
+
       const isProduction = process.env.NODE_ENV === 'production'
       const port = isProduction ? 7500 : 3000
       app.listen(port, function () {
